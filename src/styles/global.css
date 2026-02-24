@@ -1,0 +1,339 @@
+@import "katex/dist/katex.min.css";
+@import "./prose.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f6f3ee;
+  --panel: #fbfaf7;
+  --line: #d6dce2;
+  --text: #1f2a33;
+  --muted: #61717f;
+  --accent: #36485d;
+  --accent-2: #526b87;
+  --accent-soft: rgba(54, 72, 93, 0.08);
+  --shadow: 0 8px 28px rgba(31, 42, 51, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 8% 8%, rgba(54, 72, 93, 0.08), transparent 38%),
+    radial-gradient(circle at 92% 0%, rgba(82, 107, 135, 0.08), transparent 34%),
+    linear-gradient(180deg, #f8f6f1 0%, var(--bg) 40%, #f7f4ef 100%);
+  font-family:
+    "Noto Serif SC",
+    "Source Han Serif SC",
+    "PingFang SC",
+    serif;
+  line-height: 1.65;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(82, 107, 135, 0.18);
+}
+
+.container-shell {
+  width: min(1120px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.surface {
+  background: color-mix(in srgb, var(--panel) 92%, white 8%);
+  border: 1px solid rgba(54, 72, 93, 0.1);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.hairline {
+  border-color: rgba(54, 72, 93, 0.12);
+}
+
+.subtle-grid {
+  background-image:
+    linear-gradient(to right, rgba(54, 72, 93, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(54, 72, 93, 0.04) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Waline theme overrides */
+#waline {
+  --waline-theme-color: var(--accent);
+  --waline-active-color: var(--accent-2);
+  --waline-text-color: var(--text);
+  --waline-bg-color: rgba(255, 255, 255, 0.72);
+  --waline-bg-color-light: rgba(255, 255, 255, 0.82);
+  --waline-border-color: rgba(54, 72, 93, 0.12);
+  --waline-info-bg-color: rgba(54, 72, 93, 0.04);
+  --waline-info-color: var(--muted);
+  --waline-color: var(--muted);
+  --waline-disable-bg-color: rgba(54, 72, 93, 0.06);
+  --waline-disable-color: #8c98a3;
+  --waline-bq-color: rgba(54, 72, 93, 0.06);
+  margin-top: 0.25rem;
+}
+
+#waline .wl-panel {
+  margin: 0;
+  border-radius: 16px;
+  border: 1px solid rgba(54, 72, 93, 0.1);
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+#waline .wl-header {
+  background: rgba(255, 255, 255, 0.72);
+  border-bottom: 1px dashed rgba(54, 72, 93, 0.12);
+  padding: 0.35rem 0.45rem;
+}
+
+#waline .wl-header .wl-header-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.25rem 0.4rem;
+}
+
+#waline .wl-header label {
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.2rem;
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-align: center;
+  padding: 0;
+}
+
+#waline .wl-input,
+#waline .wl-editor {
+  color: var(--text);
+}
+
+#waline .wl-input {
+  margin-top: 0;
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  height: 2.1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(54, 72, 93, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  padding-inline: 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+#waline .wl-input::placeholder {
+  color: rgba(97, 113, 127, 0.75);
+  font-size: 0.86rem;
+}
+
+#waline .wl-input:focus,
+#waline .wl-editor:focus {
+  outline: none;
+  border-color: rgba(54, 72, 93, 0.28);
+  box-shadow: 0 0 0 3px rgba(54, 72, 93, 0.08);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+#waline .wl-editor {
+  min-height: 140px;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(54, 72, 93, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  line-height: 1.7;
+}
+
+#waline .wl-editor::placeholder {
+  color: rgba(97, 113, 127, 0.85);
+  font-size: 1rem;
+}
+
+#waline .wl-preview {
+  padding-inline: 1rem;
+}
+
+#waline .wl-textarea {
+  padding: 0.75rem 0.85rem 0.65rem;
+}
+
+#waline .wl-footer {
+  padding: 0.75rem 1rem;
+}
+
+#waline .wl-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+#waline .wl-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 10px;
+  border: 1px solid rgba(54, 72, 93, 0.12);
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--accent);
+  transition: all 0.18s ease;
+}
+
+#waline .wl-action:hover {
+  border-color: rgba(54, 72, 93, 0.22);
+  background: rgba(54, 72, 93, 0.06);
+  color: var(--accent-2);
+}
+
+#waline .wl-action svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+#waline .wl-action img {
+  width: 1.05rem;
+  height: 1.05rem;
+  object-fit: contain;
+  opacity: 0.92;
+}
+
+#waline .wl-action path,
+#waline .wl-action rect,
+#waline .wl-action circle,
+#waline .wl-action line,
+#waline .wl-action polyline,
+#waline .wl-action polygon {
+  stroke-width: 1.8;
+}
+
+#waline .wl-action.active {
+  border-color: rgba(54, 72, 93, 0.2);
+  background: rgba(54, 72, 93, 0.08);
+}
+
+#waline .wl-btn {
+  border-radius: 12px;
+  padding: 0.55rem 0.95rem;
+  border-color: rgba(54, 72, 93, 0.14);
+}
+
+#waline .wl-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+#waline .wl-btn.primary:hover {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+}
+
+#waline .wl-count {
+  display: none;
+}
+
+#waline .wl-sort {
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+}
+
+#waline .wl-comments {
+  margin-top: 0.5rem;
+}
+
+#waline .wl-empty {
+  margin: 0.6rem 0 0;
+  padding: 1.25rem 1rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px dashed rgba(54, 72, 93, 0.12);
+}
+
+#waline .wl-card {
+  margin-top: 0.9rem;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(54, 72, 93, 0.08);
+  background: rgba(255, 255, 255, 0.46);
+}
+
+#waline .wl-content {
+  line-height: 1.75;
+}
+
+#waline .wl-meta {
+  margin-bottom: 0.4rem;
+}
+
+#waline .wl-power {
+  margin-top: 1.2rem;
+  opacity: 0.9;
+}
+
+#waline .wl-login-nick,
+#waline .wl-nick,
+#waline .wl-meta a {
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  #waline .wl-header label {
+    min-width: 2.8rem;
+    font-size: 0.8rem;
+  }
+
+  #waline .wl-input {
+    height: 2rem;
+  }
+
+  #waline .wl-editor {
+    min-height: 120px;
+  }
+
+  #waline .wl-footer {
+    padding: 0.7rem 0.85rem;
+  }
+
+  #waline .wl-btn {
+    padding: 0.5rem 0.8rem;
+  }
+
+  #waline .wl-action {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9px;
+  }
+
+  #waline .wl-sort {
+    gap: 0.5rem;
+  }
+}

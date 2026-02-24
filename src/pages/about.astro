@@ -1,0 +1,33 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="关于" description="关于闪点和写作方式。">
+  <div class="container-shell mt-8">
+    <article class="surface p-6 md:p-8">
+      <header class="mb-8 border-b border-[color:rgba(54,72,93,0.08)] pb-5">
+        <h1 class="text-3xl font-semibold text-[var(--accent)]">关于闪点</h1>
+        <p class="mt-3 text-[var(--muted)]">意念闪烁，硅基锻造。</p>
+      </header>
+
+      <div class="prose-content">
+        <p>
+          这是一个以日常思考为主的个人博客。会写生活里一些突然出现的想法，也会记录技术实践、工作方法和长期项目的迭代过程。
+        </p>
+        <p>
+          我希望它是一个可以长期维护的地方，所以采用了 <code>Astro + Markdown/MDX + Keystatic</code> 的组合：内容文件在仓库里，既能直接写，也能用后台编辑。
+        </p>
+        <h2 id="writing">写作约定</h2>
+        <ul>
+          <li>尽量写清楚，而不是只留下结论。</li>
+          <li>优先记录真实问题与过程，而不是事后美化。</li>
+          <li>允许不完整，允许阶段性判断被后续推翻。</li>
+        </ul>
+        <h2 id="privacy">公开与私密</h2>
+        <p>
+          有些内容会保留为草稿或私密条目，不会出现在公开站点。你可以在文章 frontmatter 中使用 <code>draft</code> 和 <code>visibility</code> 控制。
+        </p>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import { navItems, site } from "@/lib/site";
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-30 border-b border-[color:rgba(54,72,93,0.08)] bg-[color:rgba(246,243,238,0.8)] backdrop-blur">
+  <div class="container-shell flex items-center justify-between gap-4 py-4">
+    <a href="/" class="group flex items-center gap-3">
+      <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[color:rgba(54,72,93,0.12)] bg-white/70 p-1 shadow-sm transition group-hover:shadow">
+        <img src="/logo-mark.svg" alt="" class="h-full w-full rounded-xl" loading="eager" decoding="async" />
+      </span>
+      <span class="leading-tight">
+        <span class="block text-base font-semibold tracking-wide text-[var(--accent)]">{site.name}</span>
+        <span class="block text-xs text-[var(--muted)]">{site.tagline}</span>
+      </span>
+    </a>
+
+    <nav aria-label="主导航">
+      <ul class="flex flex-wrap items-center justify-end gap-1 rounded-2xl border border-[color:rgba(54,72,93,0.1)] bg-white/60 p-1 shadow-sm">
+        {
+          navItems.map((item) => {
+            const active = currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href));
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={[
+                    "rounded-full px-3 py-1.5 text-sm transition",
+                    active
+                      ? "bg-[var(--accent)] text-white"
+                      : "text-[var(--muted)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]"
+                  ]}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

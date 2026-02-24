@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TagPill from "@/components/TagPill.astro";
+import { buildTagMap, getPublicPosts } from "@/lib/posts";
+
+const posts = await getPublicPosts();
+const tags = buildTagMap(posts);
+---
+
+<BaseLayout title="标签">
+  <div class="container-shell mt-8">
+    <section class="surface p-6 md:p-8">
+      <header class="mb-6 border-b border-[color:rgba(54,72,93,0.08)] pb-4">
+        <h1 class="text-3xl font-semibold text-[var(--accent)]">标签</h1>
+        <p class="mt-2 text-sm text-[var(--muted)]">按主题查看公开文章</p>
+      </header>
+
+      {tags.length ? (
+        <ul class="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <li>
+              <TagPill label={tag.name} count={tag.count} href={`/tags/${encodeURIComponent(tag.name)}/`} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="text-[var(--muted)]">还没有标签。</p>
+      )}
+    </section>
+  </div>
+</BaseLayout>

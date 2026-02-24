@@ -1,0 +1,141 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import ReadingProgress from "@/components/ReadingProgress.astro";
+import TagPill from "@/components/TagPill.astro";
+import WalineComments from "@/components/WalineComments.astro";
+import type { PostEntry } from "@/lib/posts";
+import { formatDate } from "@/lib/date";
+import { postPermalink } from "@/lib/posts";
+
+interface HeadingItem {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  post: PostEntry;
+  headings: HeadingItem[];
+  wordCount?: number;
+  prevPost?: PostEntry;
+  nextPost?: PostEntry;
+  related?: PostEntry[];
+}
+
+const { post, headings, wordCount = 0, prevPost, nextPost, related = [] } = Astro.props as Props;
+const readingMinutes = Math.max(1, Math.round(wordCount / 350));
+---
+
+<BaseLayout title={post.data.title} description={post.data.summary}>
+  <ReadingProgress />
+
+  <div class="container-shell mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
+    <article data-reading-root class="surface p-6 md:p-8">
+      <header class="border-b border-[color:rgba(54,72,93,0.08)] pb-6">
+        <div class="mb-3 flex flex-wrap items-center gap-3 text-sm text-[var(--muted)]">
+          <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+          <span>{readingMinutes} 分钟阅读</span>
+          {post.data.updated && <span>更新于 {formatDate(post.data.updated)}</span>}
+        </div>
+
+        <h1 class="text-3xl font-semibold leading-tight text-[var(--accent)] md:text-4xl">{post.data.title}</h1>
+        {post.data.summary && <p class="mt-4 text-base leading-7 text-[var(--muted)]">{post.data.summary}</p>}
+        {post.data.tags.length > 0 && (
+          <ul class="mt-5 flex flex-wrap gap-2">
+            {post.data.tags.map((tag) => (
+              <li>
+                <TagPill label={tag} href={`/tags/${encodeURIComponent(tag)}/`} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </header>
+
+      <div class="prose-content mt-8" data-pagefind-body>
+        <slot />
+      </div>
+
+      <footer class="mt-10 border-t border-[color:rgba(54,72,93,0.08)] pt-6">
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="surface bg-white/50 p-4 shadow-none">
+            <p class="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">上一篇</p>
+            {prevPost ? (
+              <a class="mt-2 block text-[var(--accent)] hover:underline" href={postPermalink(prevPost)}>
+                {prevPost.data.title}
+              </a>
+            ) : (
+              <p class="mt-2 text-sm text-[var(--muted)]">已经到最早了。</p>
+            )}
+          </div>
+
+          <div class="surface bg-white/50 p-4 shadow-none">
+            <p class="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">下一篇</p>
+            {nextPost ? (
+              <a class="mt-2 block text-[var(--accent)] hover:underline" href={postPermalink(nextPost)}>
+                {nextPost.data.title}
+              </a>
+            ) : (
+              <p class="mt-2 text-sm text-[var(--muted)]">这是最新一篇。</p>
+            )}
+          </div>
+        </div>
+
+        {related.length > 0 && (
+          <div class="mt-6">
+            <h2 class="mb-3 text-base font-semibold text-[var(--accent)]">相关阅读</h2>
+            <ul class="space-y-2">
+              {related.map((item) => (
+                <li>
+                  <a class="text-[var(--muted)] hover:text-[var(--accent)] hover:underline" href={postPermalink(item)}>
+                    {item.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </footer>
+    </article>
+
+    <aside class="space-y-4 lg:sticky lg:top-24 lg:h-fit">
+      {headings.filter((h) => h.depth <= 3).length > 0 && post.data.toc && (
+        <section class="surface p-5">
+          <h2 class="mb-3 text-sm font-semibold tracking-wide text-[var(--accent)]">目录</h2>
+          <ol class="space-y-2 text-sm text-[var(--muted)]">
+            {headings
+              .filter((h) => h.depth <= 3)
+              .map((heading) => (
+                <li class:list={[heading.depth === 3 ? "pl-3" : ""]}>
+                  <a class="hover:text-[var(--accent)] hover:underline" href={`#${heading.slug}`}>
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+          </ol>
+        </section>
+      )}
+
+      <section class="surface p-5">
+        <h2 class="mb-3 text-sm font-semibold tracking-wide text-[var(--accent)]">文章信息</h2>
+        <dl class="space-y-2 text-sm">
+          <div class="flex items-center justify-between gap-4">
+            <dt class="text-[var(--muted)]">发布时间</dt>
+            <dd>{formatDate(post.data.date)}</dd>
+          </div>
+          <div class="flex items-center justify-between gap-4">
+            <dt class="text-[var(--muted)]">永久链接</dt>
+            <dd><a class="text-[var(--accent)] hover:underline" href={postPermalink(post)}>查看</a></dd>
+          </div>
+          <div class="flex items-center justify-between gap-4">
+            <dt class="text-[var(--muted)]">阅读时长</dt>
+            <dd>{readingMinutes} min</dd>
+          </div>
+        </dl>
+      </section>
+    </aside>
+  </div>
+
+  <div class="container-shell mt-6">
+    <WalineComments />
+  </div>
+</BaseLayout>

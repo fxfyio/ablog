@@ -1,0 +1,37 @@
+---
+title: 做小工具的意义，不只是节省几分钟
+slug: building-small-tools
+date: 2026-02-12
+summary: 小工具真正节省的是切换成本和心智摩擦，而不仅仅是操作时间。
+tags:
+  - 工具
+  - 自动化
+  - 日常思考
+draft: false
+visibility: public
+lang: zh
+toc: true
+---
+
+很多人会问，花一小时写个脚本，只省下每天两分钟，值不值？
+
+我现在的答案是：通常值得。
+
+因为被省下来的不只是两分钟，还有这些东西：
+
+- 每次重复操作前的犹豫
+- 出错后的回滚成本
+- 中断之后重新进入状态的时间
+
+## 一个很小的例子
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+pnpm build
+rsync -avz dist/ server:/var/www/blog/
+```
+
+这类脚本不复杂，但它把“发布”从一个模糊动作变成了明确动作。
+

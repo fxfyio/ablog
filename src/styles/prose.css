@@ -1,0 +1,97 @@
+.prose-content {
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.prose-content > :first-child {
+  margin-top: 0;
+}
+
+.prose-content > :last-child {
+  margin-bottom: 0;
+}
+
+.prose-content h2,
+.prose-content h3,
+.prose-content h4 {
+  color: var(--accent);
+  margin-top: 2.1em;
+  margin-bottom: 0.75em;
+  line-height: 1.25;
+  scroll-margin-top: 5rem;
+}
+
+.prose-content h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(54, 72, 93, 0.12);
+  padding-bottom: 0.35rem;
+}
+
+.prose-content h3 {
+  font-size: 1.2rem;
+}
+
+.prose-content p,
+.prose-content ul,
+.prose-content ol,
+.prose-content blockquote {
+  margin: 1em 0;
+}
+
+.prose-content a {
+  color: var(--accent-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(82, 107, 135, 0.45);
+}
+
+.prose-content blockquote {
+  border-left: 3px solid rgba(54, 72, 93, 0.28);
+  padding: 0.65rem 0 0.65rem 1rem;
+  color: var(--muted);
+  background: rgba(54, 72, 93, 0.03);
+  border-radius: 0 8px 8px 0;
+}
+
+.prose-content pre {
+  border-radius: 12px;
+  border: 1px solid rgba(54, 72, 93, 0.12);
+  padding: 1rem;
+  overflow-x: auto;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.prose-content code:not(pre code) {
+  background: rgba(54, 72, 93, 0.08);
+  border: 1px solid rgba(54, 72, 93, 0.1);
+  border-radius: 6px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.prose-content img {
+  border-radius: 14px;
+  border: 1px solid rgba(54, 72, 93, 0.12);
+  margin: 1.25rem auto;
+}
+
+.prose-content hr {
+  border: 0;
+  border-top: 1px solid rgba(54, 72, 93, 0.12);
+  margin: 2rem 0;
+}
+
+.prose-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose-content th,
+.prose-content td {
+  border: 1px solid rgba(54, 72, 93, 0.12);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}

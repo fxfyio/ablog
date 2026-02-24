@@ -1,0 +1,29 @@
+---
+import PostLayout from "@/layouts/PostLayout.astro";
+import { getPublicPosts, postPermalink, relatedByTag, type PostEntry } from "@/lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getPublicPosts();
+  return posts.map((post) => {
+    const permalink = postPermalink(post);
+    const slug = permalink.replace(/^\/posts\//, "").replace(/\/$/, "");
+    return {
+      params: { slug },
+      props: { post }
+    };
+  });
+}
+
+const { post } = Astro.props as { post: PostEntry };
+
+const { Content, headings } = await post.render();
+const allPosts = await getPublicPosts();
+const currentIndex = allPosts.findIndex((item) => item.id === post.id);
+const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : undefined;
+const prevPost = currentIndex >= 0 && currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : undefined;
+const related = relatedByTag(allPosts, post, 3);
+---
+
+<PostLayout post={post} headings={headings} wordCount={post.body.length} prevPost={prevPost} nextPost={nextPost} related={related}>
+  <Content />
+</PostLayout>

@@ -1,0 +1,42 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "8025:8025" # Web UI
+      - "1025:1025" # SMTP
+
+  waline:
+    image: lizheming/waline:latest
+    restart: unless-stopped
+    depends_on:
+      - mongo
+      - mailpit
+    environment:
+      TZ: Asia/Shanghai
+      MONGO_DB: ${WALINE_MONGO_DB:-waline}
+      MONGO_HOST: mongo
+      MONGO_PORT: "27017"
+      SITE_NAME: ${WALINE_SITE_NAME:-闪点}
+      SITE_URL: ${WALINE_SITE_URL:-http://127.0.0.1:4321}
+      AUTHOR_EMAIL: ${WALINE_AUTHOR_EMAIL:-admin@shandian.local}
+      JWT_TOKEN: ${WALINE_JWT_TOKEN:-local-dev-change-me}
+      SMTP_HOST: ${WALINE_SMTP_HOST:-mailpit}
+      SMTP_PORT: ${WALINE_SMTP_PORT:-1025}
+      SMTP_USER: ${WALINE_SMTP_USER:-}
+      SMTP_PASS: ${WALINE_SMTP_PASS:-}
+      SMTP_SECURE: ${WALINE_SMTP_SECURE:-false}
+      SMTP_NAME: ${WALINE_SMTP_NAME:-闪点评论}
+      SMTP_FROM: ${WALINE_SMTP_FROM:-闪点评论 <no-reply@shandian.local>}
+      COMMENT_AUDIT: ${WALINE_COMMENT_AUDIT:-false}
+    ports:
+      - "8360:8360"
+
+volumes:
+  mongo-data:

@@ -1,0 +1,25 @@
+---
+interface Props {
+  label: string;
+  href?: string;
+  count?: number;
+}
+
+const { label, href, count } = Astro.props as Props;
+const classes =
+  "inline-flex items-center gap-1 rounded-full border border-[color:rgba(54,72,93,0.12)] bg-white/70 px-3 py-1 text-sm text-[var(--muted)] transition hover:border-[color:rgba(54,72,93,0.22)] hover:text-[var(--accent)]";
+---
+
+{
+  href ? (
+    <a href={href} class={classes}>
+      <span>{label}</span>
+      {typeof count === "number" && <span class="text-xs text-[var(--muted)]/80">{count}</span>}
+    </a>
+  ) : (
+    <span class={classes}>
+      <span>{label}</span>
+      {typeof count === "number" && <span class="text-xs text-[var(--muted)]/80">{count}</span>}
+    </span>
+  )
+}

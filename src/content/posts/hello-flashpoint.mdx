@@ -1,0 +1,55 @@
+---
+title: 闪点开场
+date: 2026-02-24
+summary: 用一篇样例文章确认写作结构、代码高亮、公式和评论模块都已接好。
+tags:
+  - 日常思考
+  - 建站
+  - Astro
+draft: false
+visibility: public
+lang: zh
+math: true
+toc: true
+---
+
+这是一篇用于初始化博客结构的样例文章。
+
+我希望这个站点保持两个特性：
+
+1. 内容文件在仓库里，可长期迁移。
+2. 写作体验足够顺手，手机和电脑都能完成。
+
+## 写作与发布
+
+当前方案是 `Markdown/MDX + Keystatic`：
+
+- 想直接写时，用编辑器维护 `src/content/posts`
+- 想快速改稿时，用 `/keystatic` 后台
+
+## 一个代码片段
+
+```ts
+type Flash = {
+  title: string;
+  intensity: number;
+};
+
+export function forge(input: Flash) {
+  return `${input.title} · ${input.intensity}`;
+}
+```
+
+## 一个公式
+
+行内公式：$E = mc^2$
+
+块级公式：
+
+$$
+\int_{0}^{1} x^2 \, dx = \frac{1}{3}
+$$
+
+## 一点说明
+
+Waline 评论需要先配置服务端地址（`PUBLIC_WALINE_SERVER_URL`）。未配置时页面会显示占位提示，不影响站点构建。

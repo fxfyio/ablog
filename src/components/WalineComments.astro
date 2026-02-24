@@ -1,0 +1,65 @@
+---
+const serverURL = import.meta.env.PUBLIC_WALINE_SERVER_URL;
+const lang = import.meta.env.PUBLIC_WALINE_LANG || "zh-CN";
+const reaction = import.meta.env.PUBLIC_WALINE_REACTION === "true";
+const path = Astro.url.pathname;
+const enabled = Boolean(serverURL);
+---
+
+<section class="surface p-5 md:p-6" aria-labelledby="comment-heading">
+  <div class="mb-4 flex items-center justify-between gap-2">
+    <div>
+      <h2 id="comment-heading" class="text-lg font-semibold text-[var(--accent)]">评论</h2>
+      <p class="mt-1 text-sm text-[var(--muted)]">昵称和邮箱用于识别身份，网站可选；输入内容后可直接提交。</p>
+    </div>
+    {!enabled && <span class="text-xs text-[var(--muted)]">配置 `PUBLIC_WALINE_SERVER_URL` 后启用</span>}
+  </div>
+
+  <div
+    id="waline"
+    class="min-h-28"
+    data-server-url={serverURL ?? ""}
+    data-path={path}
+    data-lang={lang}
+    data-reaction={String(reaction)}
+  ></div>
+</section>
+
+<script>
+  import { init } from "@waline/client";
+  import "@waline/client/style";
+
+  const el = document.getElementById("waline");
+  if (el) {
+    const serverURL = el.dataset.serverUrl;
+    if (serverURL) {
+      init({
+        el,
+        serverURL,
+        path: el.dataset.path,
+        lang: el.dataset.lang || "zh-CN",
+        requiredMeta: ["nick", "mail"],
+        locale: {
+          optional: "可选",
+          placeholder: "欢迎评论，也可以记录你的真实问题或补充观点…"
+        },
+        emoji: false,
+        dark: "html.dark",
+        reaction: el.dataset.reaction === "true",
+        search: false
+      });
+
+      const patchMetaPlaceholders = () => {
+        const nick = el.querySelector("#wl-nick");
+        const mail = el.querySelector("#wl-mail");
+        const link = el.querySelector("#wl-link");
+        if (nick && !nick.getAttribute("placeholder")) nick.setAttribute("placeholder", "输入昵称（必填）");
+        if (mail && !mail.getAttribute("placeholder")) mail.setAttribute("placeholder", "输入邮箱（必填，仅用于识别/通知）");
+        if (link && !link.getAttribute("placeholder")) link.setAttribute("placeholder", "个人网站（可选）");
+      };
+
+      requestAnimationFrame(patchMetaPlaceholders);
+      setTimeout(patchMetaPlaceholders, 120);
+    }
+  }
+</script>

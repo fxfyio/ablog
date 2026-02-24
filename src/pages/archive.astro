@@ -1,0 +1,50 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatDate } from "@/lib/date";
+import { getPublicPosts, postPermalink } from "@/lib/posts";
+
+const posts = await getPublicPosts();
+const grouped = Object.entries(
+  posts.reduce<Record<string, typeof posts>>((acc, post) => {
+    const key = String(post.data.date.getFullYear());
+    acc[key] ||= [];
+    acc[key].push(post);
+    return acc;
+  }, {})
+).sort((a, b) => Number(b[0]) - Number(a[0]));
+---
+
+<BaseLayout title="归档">
+  <div class="container-shell mt-8">
+    <section class="surface p-6 md:p-8">
+      <header class="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-[color:rgba(54,72,93,0.08)] pb-4">
+        <h1 class="text-3xl font-semibold text-[var(--accent)]">归档</h1>
+        <p class="text-sm text-[var(--muted)]">{posts.length} 篇公开文章</p>
+      </header>
+
+      {grouped.length ? (
+        <div class="space-y-8">
+          {grouped.map(([year, items]) => (
+            <section>
+              <h2 class="mb-4 text-lg font-semibold text-[var(--accent)]">{year}</h2>
+              <ul class="space-y-2">
+                {items.map((post) => (
+                  <li class="flex flex-col gap-1 rounded-xl border border-[color:rgba(54,72,93,0.08)] bg-white/50 px-4 py-3 md:flex-row md:items-center md:justify-between">
+                    <a class="text-[var(--accent)] hover:underline" href={postPermalink(post)}>
+                      {post.data.title}
+                    </a>
+                    <time class="text-sm text-[var(--muted)]" datetime={post.data.date.toISOString()}>
+                      {formatDate(post.data.date)}
+                    </time>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      ) : (
+        <p class="text-[var(--muted)]">暂无文章。</p>
+      )}
+    </section>
+  </div>
+</BaseLayout>

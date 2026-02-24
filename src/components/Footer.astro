@@ -1,0 +1,16 @@
+---
+import { site } from "@/lib/site";
+---
+
+<footer class="mt-16 border-t border-[color:rgba(54,72,93,0.08)]">
+  <div class="container-shell flex flex-col gap-3 py-8 text-sm text-[var(--muted)] md:flex-row md:items-center md:justify-between">
+    <p>© {new Date().getFullYear()} {site.name} · {site.tagline}</p>
+    <p class="flex items-center gap-2">
+      <a class="hover:text-[var(--accent)]" href="/rss.xml">RSS</a>
+      <span aria-hidden="true">·</span>
+      <a class="hover:text-[var(--accent)]" href="https://github.com" rel="noreferrer" target="_blank">
+        GitHub
+      </a>
+    </p>
+  </div>
+</footer>
